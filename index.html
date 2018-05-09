@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+	<title>Bootstrap 101 Template</title>
+
+	<!-- Bootstrap -->
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+	<link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
+	<style type="text/css">
+		.watch{border-radius: 50%; position: relative;}
+    .watch-circle {position: absolute;top: 48.4%;left: 48%;width: 4%;height: 4%;background: #33CC99;z-index: 99; border-radius: 1000px;}
+		span.w-units{
+			position: absolute;
+			width: 100%;
+			border-radius: 3px;
+		}
+		span.w-units i{float: left; width: 2px; height: 2px; background: #336699; border-radius: 5px;}
+		span.w-units i:last-child{
+			float: right;
+		}
+    span.needle { position: absolute;top: 50%; width:100%; height: 0; }
+    
+    span.needle i{float: left;}
+    span.needle i:first-child{width:50%; border: 1px solid transparent;}
+    span.hour i:last-child{border: 1px solid #336699; width: 20%;}
+    span.minute i:last-child{border: 1px solid #339999; width: 35%;}
+    span.second i:last-child{border: 1px solid #33CC99; width: 45%;}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-4"></div>
+			<div class="col-md-4">
+				<h1 class="text-center">Analog Watch</h1>
+				<div class="watch">
+				</div>
+        <div class="watch-digital">
+          <h1 class="text-center text-primary"><span class="digi-hour"></span>:<span class="digi-min"></span>:<span  class="digi-sec"></span></h1>
+        </div>
+			</div>
+			<div class="col-md-4"></div>
+		</div>
+	</div>
+
+	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+	<script type="text/javascript">
+		$(".watch").height($(".watch").width());
+    $(".watch").append("<span class='watch-circle'></span><span class='needle hour'><i></i><i></i></span> <span class='needle minute'><i></i><i></i></span> <span class='needle second'><i></i><i></i></span>")
+		for(var i=1; i<=30; i++){
+			$(".watch").append("<span class='w-units w-u-"+ i +"' ><i class='rounded-circle'></i><i class='rounded-circle'></i></span>");
+			r = i * 6;
+			$(".w-units.w-u-"+ i).css({
+				top: "calc(50% - 1px)",
+				transform: "rotate("+r+"deg)"
+			});
+      if(((i%5) == 0)){
+        $($(".w-units.w-u-"+ i + " i").css({
+          width: "5px",
+          height: "5px"
+        }));
+      }
+		}
+    var dt = new Date();
+    hour = dt.getHours(); 
+    minute = dt.getMinutes();
+    minute = (minute <10) ? "0"+minute : minute ;
+    second = dt.getSeconds();
+    second = (second <10) ? "0"+second : second ;
+    $(".digi-hour").html(hour);    
+    $(".digi-min").html(minute);    
+    $(".digi-sec").html(second);
+    setInterval(function(){
+      var dt = new Date();
+      second = dt.getSeconds();
+      minute = dt.getMinutes();
+      $(".watch .needle.second").css({"transform": "rotate(" + (second -15)*6 + "deg)" });
+      $(".watch .needle.minute").css({"transform": "rotate(" + (minute-15)*6 + "deg)"});
+      $(".watch .needle.hour").css({"transform": "rotate(" + (dt.getHours()-3)*30 + "deg)"});
+      second = (second < 10) ? "0"+second : second ;
+      $(".digi-sec").html(second);    
+      
+      minute = (minute <10) ? "0"+minute : minute ;
+      $(".digi-min").html(minute);    
+    }, 1000);
+	</script>
+</body>
+</html>
